@@ -10,9 +10,9 @@ Window {
     height: 480
     title: qsTr("Timer")
 
-    property string sec: ""
-    property string min: ""
-    property string hour: ""
+    property int sec: 0
+    property int min: 0
+    property int hour: 0
 
     Audio {
         id: sound
@@ -58,8 +58,14 @@ Window {
             textAreaRead(false)
             sound.play()
             seconds = sec
-            minutEdit.text = min
-            hourEdit.text = hour
+            if (min > 9)
+                minutEdit.text = min
+            else
+                minutEdit.text = "0" + min
+            if (hour > 9)
+                hourEdit.text = hour
+            else
+                hourEdit.text = "0" + hour
         } else if (seconds === "00" && minut !== "00") {
             minut--
             if (minut > 9)
@@ -101,20 +107,18 @@ Window {
 
         TextArea {
             id: hourEdit
-            width: 100
+            width: parent.width / 3.4
             text: qsTr("00")
             horizontalAlignment: Text.AlignHCenter
             font.bold: true
             font.family: "Times New Roman"
-            anchors.right: label.left
-            anchors.rightMargin: 0
             anchors.left: parent.left
             anchors.leftMargin: 0
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
             anchors.top: parent.top
-            anchors.topMargin: 20
-            font.pixelSize: 80
+            anchors.topMargin: parent.height / 7.5
+            font.pixelSize: parent.height / 1.875
             onLengthChanged: {
                 var number = text
                 if (length > 2)
@@ -131,12 +135,12 @@ Window {
 
         Label {
             id: label
-            width: 20
+            width: hourEdit.width / 5
             text: qsTr(":")
             font.family: "Times New Roman"
             verticalAlignment: Text.AlignTop
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 80
+            font.pointSize: parent.height / 1.875
             font.bold: true
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
@@ -148,12 +152,12 @@ Window {
 
         Label {
             id: label1
-            width: 20
+            width: hourEdit.width / 5
             text: qsTr(":")
             anchors.left: minutEdit.right
             anchors.leftMargin: 0
             font.family: "Times New Roman"
-            font.pointSize: 80
+            font.pointSize: parent.height / 1.875
             anchors.bottomMargin: 0
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignTop
@@ -165,17 +169,15 @@ Window {
 
         TextArea {
             id: minutEdit
-            x: 6
-            y: -4
-            width: 100
+            width: hourEdit.width
             text: qsTr("00")
             font.family: "Times New Roman"
             anchors.bottomMargin: 0
-            font.pixelSize: 80
+            font.pixelSize: parent.height / 1.875
             horizontalAlignment: Text.AlignHCenter
             anchors.bottom: parent.bottom
             font.bold: true
-            anchors.topMargin: 20
+            anchors.topMargin: parent.height / 7.5
             anchors.left: label.right
             anchors.top: parent.top
             anchors.leftMargin: 0
@@ -197,16 +199,14 @@ Window {
 
         TextArea {
             id: secondsEdit
-            x: 13
-            y: -12
-            width: 100
+            width: hourEdit.width
             text: qsTr("00")
             font.family: "Times New Roman"
-            font.pixelSize: 80
+            font.pixelSize: parent.height / 1.875
             anchors.bottomMargin: 0
             horizontalAlignment: Text.AlignHCenter
             anchors.bottom: parent.bottom
-            anchors.topMargin: 20
+            anchors.topMargin: parent.height / 7.5
             font.bold: true
             anchors.left: label1.right
             anchors.top: parent.top
@@ -230,7 +230,7 @@ Window {
         Label {
             id: labelHour
             text: qsTr("Hour")
-            font.pointSize: 18
+            font.pointSize: parent.height / 8.333
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.bold: true
@@ -248,7 +248,7 @@ Window {
         Label {
             id: labelMinut
             text: qsTr("Minute")
-            font.pointSize: 18
+            font.pointSize: parent.height / 8.333
             font.bold: true
             font.family: "Times New Roman"
             anchors.right: label1.left
@@ -274,7 +274,7 @@ Window {
             anchors.bottomMargin: 0
             anchors.top: parent.top
             anchors.topMargin: 0
-            font.pointSize: 18
+            font.pointSize: parent.height / 8.333
             font.bold: true
             font.family: "Times New Roman"
             verticalAlignment: Text.AlignVCenter
@@ -284,8 +284,10 @@ Window {
 
     Button {
         id: buttonPlay
+        width: mainRect.width / 3.4
+        height: mainRect.height / 3.75
         text: qsTr("Play")
-        font.pointSize: 18
+        font.pointSize: height / 2.222
         font.bold: true
         font.family: "Times New Roman"
         anchors.top: mainRect.bottom
@@ -299,12 +301,14 @@ Window {
 
     Button {
         id: buttonStop
+        width: buttonPlay.width
+        height: buttonPlay.height
         text: qsTr("Stop")
         anchors.left: buttonPlay.right
-        anchors.leftMargin: 20
+        anchors.leftMargin: label.width
         anchors.top: mainRect.bottom
         anchors.topMargin: 0
-        font.pointSize: 18
+        font.pointSize: height / 2.222
         font.bold: true
         onClicked: {
             timer.stop()
@@ -314,12 +318,14 @@ Window {
 
     Button {
         id: buttonReset
+        width: buttonPlay.width
+        height: buttonPlay.height
         text: qsTr("Reset")
         anchors.right: mainRect.right
         anchors.rightMargin: 0
         anchors.top: mainRect.bottom
         anchors.topMargin: 0
-        font.pointSize: 18
+        font.pointSize: height / 2.222
         font.bold: true
         font.family: "Times New Roman"
         onClicked: {
@@ -327,6 +333,7 @@ Window {
             hourEdit.text = "00"
             minutEdit.text = "00"
             secondsEdit.text = "00"
+
         }
     }
 }
