@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>sound/scream.mp3</file>
+        <file>sound/ring.mp3</file>
     </qresource>
 </RCC>

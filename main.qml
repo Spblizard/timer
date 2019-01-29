@@ -17,7 +17,7 @@ Window {
     Audio {
         id: sound
         autoPlay: false
-        source: "qrc:/sound/scream.mp3"
+        source: "qrc:/sound/ring.mp3"
     }
 
     function startTimer() {
