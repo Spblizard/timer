@@ -3,7 +3,7 @@ import QtMultimedia 5.9
 import QtQuick.Controls 2.2
 import QtQuick.Window 2.10
 
-Window {
+ApplicationWindow {
     id: window
     visible: true
     width: 640
@@ -13,6 +13,9 @@ Window {
     property int sec: 0
     property int min: 0
     property int hour: 0
+    background: Image {
+        source: "qrc:/image/background.jpg"
+    }
 
     Audio {
         id: sound
@@ -312,6 +315,7 @@ Window {
         font.bold: true
         onClicked: {
             timer.stop()
+            sound.stop()
             textAreaRead(false)
         }
     }
