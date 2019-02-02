@@ -17,10 +17,22 @@ ApplicationWindow {
         source: "qrc:/image/background.jpg"
     }
 
+    property bool start: false
+
     Audio {
         id: sound
         autoPlay: false
         source: "qrc:/sound/ring.mp3"
+        onPlaying: window.start = true
+        onStopped: window.start = false
+    }
+
+    Timer {
+        id: timer2
+        interval: 100
+        running: false
+        repeat: false
+        onTriggered: textAreaRead(false)
     }
 
     function startTimer() {
@@ -30,13 +42,33 @@ ApplicationWindow {
         secondsEdit.text = addingNull(secondsEdit.length, secondsEdit.text)
         if (secondsEdit.text == "00" && minutEdit.text == "00" && hourEdit.text == "00") {
 
+        } else if (timer.running) {
+            timer.stop()
+            if (window.sec > 9)
+                secondsEdit.text = window.sec
+            else
+                secondsEdit.text = "0" + window.sec
+            if (window.min > 9)
+                minutEdit.text = window.min
+            else
+                minutEdit.text = "0" + window.min
+            if (window.hour > 9)
+                hourEdit.text = window.hour
+            else
+                hourEdit.text = "0" + window.hour
+            textAreaRead(false)
         } else {
             window.sec = secondsEdit.text
             window.min = minutEdit.text
             window.hour = hourEdit.text
-            timer.start()
-            sound.stop()
-            textAreaRead(true)
+            if (!window.start) {
+               timer.start()
+               textAreaRead(true)
+            } else if (window.start) {
+                sound.stop()
+                textAreaRead(true)
+                timer2.start()
+            }
         }
     }
 
@@ -135,6 +167,9 @@ ApplicationWindow {
                 if (event.key === 16777220) {
                   startTimer()
                 }
+                if (event.key === 32) {
+                    startTimer()
+                }
             }
         }
 
@@ -199,6 +234,9 @@ ApplicationWindow {
                 if (event.key === 16777220) {
                   startTimer()
                 }
+                if (event.key === 32) {
+                    startTimer()
+                }
             }
         }
 
@@ -229,6 +267,10 @@ ApplicationWindow {
                 if (event.key === 16777220) {
                   startTimer()
                 }
+                if (event.key === 32) {
+                    startTimer()
+                }
+
             }
         }
 
@@ -289,7 +331,7 @@ ApplicationWindow {
 
     Button {
         id: buttonPlay
-	opacity: 0.75
+	opacity: 0.55
         width: mainRect.width / 3.4
         height: mainRect.height / 3.75
         text: qsTr("Play")
@@ -307,7 +349,7 @@ ApplicationWindow {
 
     Button {
         id: buttonStop
-	opacity: 0.5
+	opacity: 0.55
         width: buttonPlay.width
         height: buttonPlay.height
         text: qsTr("Stop")
@@ -326,7 +368,7 @@ ApplicationWindow {
 
     Button {
         id: buttonReset
-	opacity: 0.25
+	opacity: 0.55
         width: buttonPlay.width
         height: buttonPlay.height
         text: qsTr("Reset")
