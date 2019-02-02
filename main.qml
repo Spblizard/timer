@@ -24,6 +24,7 @@ ApplicationWindow {
     }
 
     function startTimer() {
+	
         hourEdit.text = addingNull(hourEdit.length, hourEdit.text)
         minutEdit.text = addingNull(minutEdit.length, minutEdit.text)
         secondsEdit.text = addingNull(secondsEdit.length, secondsEdit.text)
@@ -34,6 +35,7 @@ ApplicationWindow {
             window.min = minutEdit.text
             window.hour = hourEdit.text
             timer.start()
+            sound.stop()
             textAreaRead(true)
         }
     }
@@ -287,6 +289,7 @@ ApplicationWindow {
 
     Button {
         id: buttonPlay
+	opacity: 0.75
         width: mainRect.width / 3.4
         height: mainRect.height / 3.75
         text: qsTr("Play")
@@ -304,6 +307,7 @@ ApplicationWindow {
 
     Button {
         id: buttonStop
+	opacity: 0.5
         width: buttonPlay.width
         height: buttonPlay.height
         text: qsTr("Stop")
@@ -322,6 +326,7 @@ ApplicationWindow {
 
     Button {
         id: buttonReset
+	opacity: 0.25
         width: buttonPlay.width
         height: buttonPlay.height
         text: qsTr("Reset")
