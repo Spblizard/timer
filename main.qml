@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtMultimedia 5.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.4
+import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.10
 
 ApplicationWindow {
@@ -10,9 +11,83 @@ ApplicationWindow {
     height: 480
     title: qsTr("Timer")
 
+    property string menuTitle: "&File"
+
+    Menu {
+        id: menu1
+        title: menuTitle
+        Action {
+            text: "&New..."
+            onTriggered: fileDialog.open()
+        }
+    }
+
+    property variant menu2: menu1
+
+    FileDialog {
+        id: fileDialog
+        title: "Choose music file"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("Your file: " + fileDialog.fileUrl)
+            sound.source = fileDialog.fileUrl
+        }
+    }
+
+    menuBar: MenuBar {
+        id: barMenu
+        height: 0
+        opacity: 0.5
+        onHeightChanged: {
+            if (height == 0) {
+                menu2 = takeMenu(0)
+            } else if (height == 40)
+                addMenu(menu2)
+        }
+    }
+
+
+    NumberAnimation {
+        id: animBarFull
+        target: barMenu
+        property: "height"
+        duration: 200
+        from: 0
+        to: 40
+    }
+
+
+    NumberAnimation {
+        id: animBarZero
+        target: barMenu
+        property: "height"
+        duration: 200
+        from: 40
+        to: 0
+    }
+
+    property bool fulled: false
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: false
+        onMouseYChanged: {
+            if (mouseY < 40 && !fulled) {
+                animBarFull.start()
+                fulled = true
+                hoverEnabled = true
+            } else if (mouseY > 40) {
+                animBarZero.start()
+                fulled = false
+                hoverEnabled = false
+            }
+        }
+    }
+
     property int sec: 0
     property int min: 0
     property int hour: 0
+
     background: Image {
         source: "qrc:/image/background.jpg"
     }
@@ -22,7 +97,7 @@ ApplicationWindow {
     Audio {
         id: sound
         autoPlay: false
-        source: "qrc:/sound/ring.mp3"
+        source: ""
         onPlaying: window.start = true
         onStopped: window.start = false
     }
