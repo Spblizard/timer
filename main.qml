@@ -18,19 +18,17 @@ ApplicationWindow {
         title: menuTitle
         Action {
             text: "&New..."
-            onTriggered: fileDialog.open()
+            onTriggered: check.open()
         }
     }
 
     property variant menu2: menu1
 
-    FileDialog {
-        id: fileDialog
-        title: "Choose music file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("Your file: " + fileDialog.fileUrl)
-            sound.source = fileDialog.fileUrl
+    Connections {
+        target: check
+
+        onSignalFileName: {
+            sound.source = url
         }
     }
 
