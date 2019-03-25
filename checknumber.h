@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QFileDialog>
+#include <QFileInfo>
 
 class CheckNumber : public QObject
 {
@@ -12,7 +13,7 @@ public:
     explicit CheckNumber(QObject *parent = nullptr);
 
 signals:
-    void signalFileName(QUrl url);
+    void signalFileName(QUrl url,QString name);
 
 public slots:
     bool isNumber(QString);

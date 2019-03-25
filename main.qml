@@ -1,7 +1,6 @@
 import QtQuick 2.10
 import QtMultimedia 5.9
 import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.10
 
 ApplicationWindow {
@@ -12,6 +11,10 @@ ApplicationWindow {
     title: qsTr("Timer")
 
     property string menuTitle: "&File"
+    property string choosedStr: "Choosed sound: "
+    property string choosedName: "None"
+
+
 
     Menu {
         id: menu1
@@ -29,6 +32,7 @@ ApplicationWindow {
 
         onSignalFileName: {
             sound.source = url
+            labelChoosedFile.text = choosedStr + name
         }
     }
 
@@ -404,7 +408,7 @@ ApplicationWindow {
 
     Button {
         id: buttonPlay
-	opacity: 0.55
+        opacity: 0.55
         width: mainRect.width / 3.4
         height: mainRect.height / 3.75
         text: qsTr("Play")
@@ -422,7 +426,7 @@ ApplicationWindow {
 
     Button {
         id: buttonStop
-	opacity: 0.55
+        opacity: 0.55
         width: buttonPlay.width
         height: buttonPlay.height
         text: qsTr("Stop")
@@ -441,7 +445,7 @@ ApplicationWindow {
 
     Button {
         id: buttonReset
-	opacity: 0.55
+        opacity: 0.55
         width: buttonPlay.width
         height: buttonPlay.height
         text: qsTr("Reset")
@@ -459,5 +463,18 @@ ApplicationWindow {
             secondsEdit.text = "00"
 
         }
+    }
+
+    Label {
+        id: labelChoosedFile
+        text: choosedStr + choosedName
+        horizontalAlignment: Text.AlignRight
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        font.pointSize: labelSecond.font.pointSize / 1.2
+        font.bold: true
+        font.family: "Times New Roman"
+        verticalAlignment: Text.AlignVCenter
     }
 }

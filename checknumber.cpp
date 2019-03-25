@@ -17,6 +17,7 @@ bool CheckNumber::isNumber(QString str)
 void CheckNumber::open()
 {
     QString fileName = QFileDialog::getOpenFileName(qobject_cast<QWidget *> (parent()), tr("Open sound file"));
+    QString name = QFileInfo(fileName).fileName();
     QUrl url = QUrl::fromLocalFile(fileName);
-    emit signalFileName(fileName);
+    emit signalFileName(url, name);
 }
